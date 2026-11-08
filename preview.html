@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Cassaltia</title>
+<!-- Shows the built Cassaltia Code from the .woff2 files in out/.  Browsers refuse fonts from
+     file: pages, so serve this directory over http, e.g.,
+       python3 -m http.server -d ~/src/cassaltia 8123
+     and open http://localhost:8123/preview.html -->
+<style>
+  @font-face { font-family: "Salt"; src: url(out/CassaltiaCode-Regular.woff2); }
+  @font-face { font-family: "Salt"; src: url(out/CassaltiaCode-Bold.woff2); font-weight: bold; }
+  @font-face { font-family: "Salt"; src: url(out/CassaltiaCode-Italic.woff2);
+               font-style: italic; }
+  @font-face { font-family: "Salt"; src: url(out/CassaltiaCode-BoldItalic.woff2);
+               font-weight: bold; font-style: italic; }
+  body { background: #110011; color: #fff; font-family: sans-serif; margin: 1em 2em; }
+  textarea { font: 14pt monospace; width: 50em; height: 7em; }
+  pre { font: 20pt "Salt"; font-synthesis: none; }
+</style>
+</head>
+<body>
+<textarea id="text">The quick brown fox **jumps over** the lazy dog
+@#$% &*{} Qq 0O 1lI| {}[]() <= >= != => -> == ===
+**@#$% &*{} Qq 0O 1lI| {}[]() <= >= != => -> == ===**
+const f = x => x + 1; // *salt* to **taste**
+*Winter of '86 -- **1,214 head in, 1,187 out** (97.8%).*
+mmm www MMM WWW 888 eee aaa ### **mmm www MMM WWW 888 eee aaa ###**</textarea>
+<p>Wrap text in <code>**...**</code> for bold, and in <code>*...*</code> for italic.</p>
+<pre id="sample"></pre>
+<script>
+  const update = () => document.getElementById("sample").innerHTML =
+    document.getElementById("text").value.replace(/[&<>]/g, c => `&#${c.charCodeAt(0)};`)
+      .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+  document.getElementById("text").addEventListener("input", update);
+  update();
+</script>
+</body>
+</html>

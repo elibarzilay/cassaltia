@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Builds Cassaltia (see build.py here) from Cascadia's repo in cascadia/: a shallow clone when
+# it's missing, pulled on every run.  uv runs the build in a cached environment made from
+# Cascadia's pinned requirements.txt, so nothing gets installed anywhere else.  setuptools is
+# added because uv environments come without it, and one of the pinned packages (`fs`) imports
+# its `pkg_resources`, which setuptools 82 removed.  When uv is missing, its official installer
+# puts it in ~/.local/bin, without touching any shell startup files.
+
+# Default weights, which --regular and --bold override
+regular=650
+bold=1100
+
+set -euo pipefail
+cd "$(dirname "$(readlink -f "$0")")"
+if ! command -v uv > /dev/null; then
+  echo "Installing uv in ~/.local/bin" >&2
+  curl -sfSL https://astral.sh/uv/install.sh \
+    | UV_INSTALL_DIR="$HOME/.local/bin" UV_NO_MODIFY_PATH=1 sh
+fi
+if [[ -d cascadia ]]; then
+  git -C cascadia pull --quiet --ff-only
+else
+  git clone --quiet --depth 1 https://github.com/microsoft/cascadia-code.git cascadia
+fi
+cd cascadia
+exec uv run --quiet --no-project --python 3.12 \
+  --with-requirements requirements.txt --with "setuptools<82" \
+  python ../build.py --regular "$regular" --bold "$bold" "$@"
