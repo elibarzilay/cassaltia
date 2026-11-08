@@ -48,10 +48,13 @@ fits Cassaltia.
 
 ## Building
 
-    ./build [--regular WEIGHT] [--bold WEIGHT]
+    ./build [--regular WEIGHT] [--bold WEIGHT] [--version VERSION]
 
 - The default weights sit at the top of `build`, which is where you tweak your
-  salt level. The options override them for one run.
+  salt level. Next to them is the version: bump it whenever you change a
+  weight. The options override all three for one run. The fonts' version
+  string shows them after Cascadia's own version, as in
+  `Version 2407.024; Cassaltia 1.1 (600/900)`.
 - The build works on Cascadia's own repo, in `cascadia/`: it makes a shallow
   clone of [microsoft/cascadia-code][cascadia] when it's missing, and pulls it
   on every run.

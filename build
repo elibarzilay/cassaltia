@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Builds Cassaltia (see build.py here) from Cascadia's repo in cascadia/: a shallow clone when
-# it's missing, pulled on every run.  uv runs the build in a cached environment made from
-# Cascadia's pinned requirements.txt, so nothing gets installed anywhere else.  setuptools is
-# added because uv environments come without it, and one of the pinned packages (`fs`) imports
-# its `pkg_resources`, which setuptools 82 removed.  When uv is missing, its official installer
-# puts it in ~/.local/bin, without touching any shell startup files.
+# Builds Cassaltia (see build.py here) from Cascadia's repo in cascadia/, which it clones
+# (shallow) when it's missing and pulls on every run.  uv runs the build in a cached environment
+# made from Cascadia's pinned requirements.txt, so nothing gets installed anywhere else.  This
+# adds setuptools, because uv environments come without it, and one of the pinned packages (`fs`)
+# imports its `pkg_resources`, which setuptools 82 removed.  When uv is missing, its official
+# installer puts it in ~/.local/bin, without touching any shell startup files.
 
-# Default weights, which --regular and --bold override
+# Defaults, which --regular, --bold, and --version override; bump the version with any weight
 regular=600
 bold=900
+version=1.1
 
 set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")"
@@ -25,4 +26,4 @@ fi
 cd cascadia
 exec uv run --quiet --no-project --python 3.12 \
   --with-requirements requirements.txt --with "setuptools<82" \
-  python ../build.py --regular "$regular" --bold "$bold" "$@"
+  python ../build.py --regular "$regular" --bold "$bold" --version "$version" "$@"
