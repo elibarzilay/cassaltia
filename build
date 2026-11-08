@@ -7,8 +7,8 @@
 # puts it in ~/.local/bin, without touching any shell startup files.
 
 # Default weights, which --regular and --bold override
-regular=650
-bold=1100
+regular=600
+bold=900
 
 set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")"

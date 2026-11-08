@@ -21,9 +21,9 @@ is information thrown away. Without it, you never know when your agent is
 shouting something, and that's just rude.
 
 Cassaltia fixes this by moving the scale. Its Regular is Cascadia at weight
-650, about as heavy as most Bolds, and its Bold is Cascadia at weight 1100,
-well past anything Microsoft ships. When a terminal asks for 700, it gets
-1100, and bold stands out the way it should.
+600, nearly as heavy as Cascadia's own Bold, and its Bold is Cascadia at weight
+900, well past anything Microsoft ships. When a terminal asks for 700, it gets
+900, and bold stands out the way it should.
 
 
 ## The families
